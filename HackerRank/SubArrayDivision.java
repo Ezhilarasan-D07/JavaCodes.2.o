@@ -12,29 +12,33 @@ import java.util.*;
 
 public class SubArrayDivision {
 
-    public static int birthday (List <Integer> arr, int date, int month) {
+public static int birthday(List<Integer> arr, int date, int month) {
 
-        int sum = 0, count = 0;
-        // sum the first month length elements and check it gives the sum of dates = month.
-        for (int ind = 0; ind < month; ind ++) {
-            sum += arr.get(ind);
-            if (sum == date) {
-                count ++;
-            }
-        }
-        // traverse the array with fixed length of month and check the sum again. cont ++;
-        for (int ind = 0; ind < arr.size() - month; ind ++) {
-            sum += arr.get(month + ind) - arr.get(ind);
-            if (sum == date)
-                count ++;
-        }   return count;
+    int sum = 0, count = 0;
 
+    // Step 1: Build first window
+    for (int i = 0; i < month; i++) {
+        sum += arr.get(i);
     }
+    if (sum == date) count++;
+
+    // Step 2: Slide the window
+    for (int i = month; i < arr.size(); i++) {
+
+        sum += arr.get(i) - arr.get(i - month);
+
+        if (sum == date)
+            count++;
+    }
+
+    return count;
+}
+
 
     public static void main (String ... varChar) {
         System.out.println(birthday( Arrays.asList(1, 2, 1, 3, 2 ), 3, 2));
         System.out.println(birthday( Arrays.asList(2, 2, 1, 3, 2 ), 4, 2));
-        System.out.println(birthday( Arrays.asList(1, 1, 1, 1, 1, 1 ), 3, 2));
+        System.out.println(birthday( Arrays.asList(4, 5, 4, 5, 1, 2, 1, 4, 3, 2, 4, 4, 3, 5, 2, 2, 5, 4, 3, 2, 3, 5, 2, 1, 5, 2, 3, 1, 2, 3, 3, 1, 2, 5), 18, 6));
         System.out.println(birthday( Arrays.asList(4), 4, 1));
     }
 }
